@@ -14,7 +14,6 @@ class Comments extends Component {
 
     onVoteHandler = (vote, comment) => {
         const { dispatch } = this.props;
-        console.log(comment.id);
         dispatch(voteComment(comment.id, {'option': vote}));
     }
 

@@ -6,7 +6,8 @@ import {
     RECEIVE_POST,
     REQUEST_POST,
     REQUEST_DELETE_POST_SUCCESS,
-} from '../actions/postActions'
+    RECEIVE_VOTE_POST,
+} from '../actions/postActions';
 
 export function posts(
     state = {
@@ -22,35 +23,55 @@ export function posts(
             return Object.assign({}, state, {
                 isFetching: true,
                 didInvalidate: false
-            })
+            });
         case RECEIVE_POSTS:
             return Object.assign({}, state, {
                 isFetching: false,
                 didInvalidate: false,
                 items: action.posts,
                 lastUpdated: action.receivedAt
-            })
+            });
         case REQUEST_POST:
             return Object.assign({}, state, {
                 isFetching: true,
                 didInvalidate: false
-            })
+            });
         case RECEIVE_POST:
             return Object.assign({}, state, {
                 isFetching: false,
                 didInvalidate: false,
                 item: action.post,
                 lastUpdated: action.receivedAt
-            })
+            });
+        case RECEIVE_NEW_POST:
+            console.log(action);
+            return Object.assign({}, state, {
+                isFetching: false,
+                didInvalidate: false,
+                item: action.post,
+                items: state.items.concat(action.post),
+                lastUpdated: action.receivedAt
+            });
         case REQUEST_DELETE_POST_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
                 didInvalidate: false,
                 lastUpdated: action.receivedAt,
                 item: [],
-            })
+            });
+        case RECEIVE_VOTE_POST:
+            return Object.assign({}, state, {
+                isFetching: false,
+                didInvalidate: false,
+                item: action.post,
+                items: state.items.map(
+                    (item) => item.id === action.post.id
+                    ? {...item, voteScore: action.post.voteScore}
+                    : item
+                ),
+            });
         default:
-            return state
+            return state;
     }
 }
 
@@ -67,15 +88,15 @@ export function newPost(
             return Object.assign({}, state, {
                 isFetching: true,
                 didInvalidate: false,
-            })
+            });
         case RECEIVE_NEW_POST:
             return Object.assign({}, state, {
                 isFetching: false,
                 didInvalidate: false,
                 post: action.post,
                 lastUpdated: action.receivedAt,
-            })
+            });
         default:
-            return state
+            return state;
     }
 }

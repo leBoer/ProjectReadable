@@ -26,6 +26,8 @@ export default class Posts extends Component {
         <br/>
         Votes: {post.voteScore}
         <br/>
+        Comments: {post.commentCount}
+        <br/>
         Date: {this.convertToDate(post.timestamp)}
       </CollectionItem>
     )

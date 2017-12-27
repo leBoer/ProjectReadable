@@ -1,6 +1,7 @@
 import {
     RECEIVE_COMMENTS,
     RECEIVE_VOTE_COMMENT,
+    RECEIVE_POST_COMMENT,
 } from '../actions/commentActions';
 
 export function comments(
@@ -30,6 +31,13 @@ export function comments(
                     ? {...item, voteScore: action.comment.voteScore}
                     : item
                 ),
+            });
+        case RECEIVE_POST_COMMENT:
+            return Object.assign({}, state, {
+                isFetching: false,
+                didInvalidate: false,
+                lastUpdated: action.receivedAt,
+                items: state.items.concat(action.comment),
             });
         default:
             return state;

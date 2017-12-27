@@ -1,18 +1,19 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 import {
   SELECT_SUBREDDIT,
   INVALIDATE_SUBREDDIT,
   REQUEST_CATEGORIES,
   RECEIVE_CATEGORIES,
-} from './actions'
-import { posts, newPost } from './reducers/postReducers'
+} from './actions';
+import { posts, newPost } from './reducers/postReducers';
+import { comments } from './reducers/commentsReducers';
 
 function selectedSubreddit(state = 'reactjs', action) {
   switch (action.type) {
     case SELECT_SUBREDDIT:
-      return action.subreddit
+      return action.subreddit;
     default:
-      return state
+      return state;
   }
 }
 
@@ -43,16 +44,16 @@ function categories(
     return Object.assign({}, state, {
       isFetching: true,
       didInvalidate: false,
-    })
+    });
     case RECEIVE_CATEGORIES:
       return Object.assign({}, state, {
         isFetching: false,
         didInvalidate: false,
         items: action.categories,
         lastUpdated: action.receivedAt,
-      })
+      });
     default:
-      return state
+      return state;
   }
 }
 
@@ -63,6 +64,7 @@ const rootReducer = combineReducers({
   categories,
   posts,
   newPost,
+  comments,
 })
 
 export default rootReducer

@@ -6,6 +6,9 @@ export const REQUEST_POST = 'REQUEST_POST';
 export const RECEIVE_POST = 'RECEIVE_POST';
 export const REQUEST_DELETE_POST = 'REQUEST_DELETE_POST';
 export const REQUEST_DELETE_POST_SUCCESS = 'REQUEST_DELETE_POST_SUCCESS';
+export const REQUEST_UPDATE_POST = 'REQUEST_UPDATE_POST';
+export const REQUEST_VOTE_POST = 'REQUEST_VOTE_POST';
+export const RECEIVE_VOTE_POST = 'RECEIVE_VOTE_POST';
 
 function requestPosts() {
     return {
@@ -22,6 +25,18 @@ function requestPost() {
 function requestDeletePost() {
     return {
         type: REQUEST_DELETE_POST,
+    };
+}
+
+function requestUpdatePost() {
+    return {
+        type: REQUEST_UPDATE_POST,
+    };
+}
+
+function requestVotePost() {
+    return {
+        type: REQUEST_VOTE_POST,
     };
 }
 
@@ -62,10 +77,51 @@ function receiveNewPost(json) {
     };
 }
 
+function receiveVotePost(json) {
+    return {
+        type: RECEIVE_VOTE_POST,
+        post: json,
+        receivedAt: Date.now()
+    };
+}
+
+export function updatePost(id, payload) {
+    return dispatch => {
+        dispatch(requestUpdatePost);
+        return fetch(`http://localhost:3001/posts/${id}`, {
+            method: 'PUT',
+            headers: {
+                Authorization: 'something',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        })
+            .then(response => response.json())
+            .then(json => dispatch(receivePost(json)))
+            .catch(json => { console.error(json) });
+    };
+}
+
+export function votePost(id, payload) {
+    return dispatch => {
+        dispatch(requestVotePost);
+        return fetch(`http://localhost:3001/posts/${id}`, {
+            method: 'POST',
+            headers: {
+                Authorization: 'something',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        })
+            .then(response => response.json())
+            .then(json => dispatch(receiveVotePost(json)))
+            .catch(json => { console.error(json) });
+    };
+}
+
 export function postNewPost(payload) {
     return dispatch => {
         dispatch(postNewPosts);
-        console.log('payload', payload);
         return fetch(`http://localhost:3001/posts`, {
             method: 'POST',
             headers: {

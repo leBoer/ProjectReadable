@@ -5,7 +5,6 @@ import { Button } from 'react-materialize';
 import { votePost } from '../actions/postActions';
 
 class Votes extends Component {
-
     onVoteHandler = (vote) => {
         const { dispatch, id } = this.props;
         dispatch(votePost(id, {'option': vote}));

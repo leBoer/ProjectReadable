@@ -85,9 +85,7 @@ class NewPost extends Component {
             return (
                 <div>
                     <Row>
-                        <Row>
-                            <Input s={4} type="text" label="Author" name="author" onChange={this.onInputHandler} defaultValue={this.state.post.author}/>
-                        </Row>
+                        <Input s={4} type="text" label="Author" name="author" onChange={this.onInputHandler} defaultValue={this.state.post.author}/>
                     </Row>
                     <Row>
                         <Input s={4} type="select" label="Select Category" name="category" onChange={this.onInputHandler} defaultValue={this.state.post.category}>
