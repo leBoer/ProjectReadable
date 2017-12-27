@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col, Button } from 'react-materialize';
 import * as moment from 'moment';
+import { withRouter } from 'react-router-dom';
 
 import { fetchPost, deletePost } from '../actions/postActions';
+import NewPost from '../containers/NewPost.jsx';
 
 
 class Post extends Component {
@@ -12,17 +14,26 @@ class Post extends Component {
         super(props);
     }
     state = {
-        id: '',
-        timestamp: 0,
-        title: '',
-        body: '',
-        author: '',
-        category: 'react',
+        post: {
+            id: '',
+            timestamp: 0,
+            title: '',
+            body: '',
+            author: '',
+            category: 'react',
+        },
+        edit: false,
     }
 
     componentDidMount() {
         const { dispatch } = this.props;
         dispatch(fetchPost(this.props.match.params.id));
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if ((this.props.post !== nextProps.post.item) && nextProps.post.item === {}) {
+            this.props.router.push("/");
+        }
     }
 
     convertToDate = (timestamp) => {
@@ -33,6 +44,13 @@ class Post extends Component {
     onDeleteHandler = () => {
         const { dispatch } = this.props;
         dispatch(deletePost(this.props.match.params.id));
+        this.props.history.push("/");
+    }
+
+    onEditHandler = () => {
+        this.setState({
+            edit: true,
+        })
     }
 
     render() {
@@ -44,6 +62,8 @@ class Post extends Component {
                 </i>
                 <p>{this.props.post.body}</p>
                 <Button waves="light" name="submitPost" onClick={this.onDeleteHandler}>Delete</Button>
+                <Button waves="light" name="editPost" onClick={this.onEditHandler}>Edit Post</Button>
+                { this.state.edit && <NewPost post={this.props.post} />}
             </div>
         );
     }
@@ -53,5 +73,4 @@ const mapStateToProps = ({ posts }) => ({
     post: posts.item,
 });
 
-export default connect(mapStateToProps)(Post);
-// export default Post;
+export default withRouter(connect(mapStateToProps)(Post));

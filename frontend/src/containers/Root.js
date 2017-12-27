@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import AsyncApp from './AsyncApp';
 import Header from '../components/Header';
-import NewPost from './NewPost';
+import NewPost from './NewPost.jsx';
 import Post from './Post.jsx';
 
 
