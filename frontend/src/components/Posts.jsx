@@ -79,6 +79,8 @@ class Posts extends Component {
                         <br />
                         Comments: {post.commentCount}
                         <br />
+                        Author: {post.author}
+                        <br />
                         Date: {this.convertToDate(post.timestamp)}
                     </CollectionItem>
                 </Col>

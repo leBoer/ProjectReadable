@@ -30,9 +30,13 @@ class Post extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if ((this.props.post !== nextProps.post.item) && nextProps.post.item === {}) {
+        if (nextProps.post.didInvalidate) {
+            // Reroute if there is something wrong
+            this.props.history.push("/404");
+        }
+        if ((this.props.post.item !== nextProps.post.item) && nextProps.post.item === {}) {
             // Reroute to root when post has been deleted
-            this.props.router.push("/");
+            this.props.history.push("/");
         }
         if(this.props.comments !== nextProps.comments.items) {
             // If a new comment was made, unmount NewComment Component
@@ -76,18 +80,18 @@ class Post extends Component {
                     <Col s={2}>
                     </Col>
                     <Col s={9}>
-                        <h2>{this.props.post.title}</h2>
+                        <h2>{this.props.post.item.title}</h2>
                         <i>
-                            {this.props.post.author} | {this.convertToDate(this.props.post.timestamp)} | {this.props.post.category}
+                            {this.props.post.item.author} | {this.convertToDate(this.props.post.item.timestamp)} | {this.props.post.item.category} | Comments: {this.props.post.item.commentCount}
                         </i>
-                        <p>{this.props.post.body}</p>
+                        <p>{this.props.post.item.body}</p>
                         <Button waves="light" name="submitPost" onClick={this.onDeleteHandler}>Delete</Button>
                         <Button waves="light" name="editPost" onClick={this.onEditHandler}>Edit Post</Button>
                         <Button waves="light" name="newComment" onClick={this.onCommentHandler}>New Comment</Button>
                         <div style={styles.votes}>
                             <Votes id={this.props.match.params.id}/>
                         </div>
-                        { this.state.edit && <NewPost post={this.props.post} />}
+                        { this.state.edit && <NewPost post={this.props.post.item} />}
                     </Col>
                 </Row>
                 <Row>
@@ -110,7 +114,7 @@ class Post extends Component {
 }
 
 const mapStateToProps = ({ posts, comments }) => ({
-    post: posts.item,
+    post: posts,
     comments: comments.items, // Adding this to detect if a new comment has been made
 });
 

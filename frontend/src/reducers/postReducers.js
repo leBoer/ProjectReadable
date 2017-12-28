@@ -7,6 +7,7 @@ import {
     REQUEST_POST,
     REQUEST_DELETE_POST_SUCCESS,
     RECEIVE_VOTE_POST,
+    RECEIVE_POST_FAILED,
 } from '../actions/postActions';
 
 export function posts(
@@ -68,6 +69,11 @@ export function posts(
                     ? {...item, voteScore: action.post.voteScore}
                     : item
                 ),
+            });
+        case RECEIVE_POST_FAILED:
+            return Object.assign({}, state, {
+                isFetching: false,
+                didInvalidate: true,
             });
         default:
             return state;

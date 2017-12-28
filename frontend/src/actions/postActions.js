@@ -9,6 +9,7 @@ export const REQUEST_DELETE_POST_SUCCESS = 'REQUEST_DELETE_POST_SUCCESS';
 export const REQUEST_UPDATE_POST = 'REQUEST_UPDATE_POST';
 export const REQUEST_VOTE_POST = 'REQUEST_VOTE_POST';
 export const RECEIVE_VOTE_POST = 'RECEIVE_VOTE_POST';
+export const RECEIVE_POST_FAILED = 'RECEIVE_POST_FAILED';
 
 function requestPosts() {
     return {
@@ -56,11 +57,16 @@ function receivePosts(json) {
 }
 
 function receivePost(json) {
+    if (json.id) {
+        return {
+            type: RECEIVE_POST,
+            post: json,
+            receivedAt: Date.now()
+        };
+    }
     return {
-        type: RECEIVE_POST,
-        post: json,
-        receivedAt: Date.now()
-    };
+        type: RECEIVE_POST_FAILED
+    }
 }
 
 function postNewPosts() {
