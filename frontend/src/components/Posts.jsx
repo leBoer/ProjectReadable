@@ -44,16 +44,24 @@ class Posts extends Component {
     componentWillReceiveProps(nextProps) {
         // If you lost the store at /newpost (by refreshing for instance),
         // this will make sure that it is repopulated again
+        console.log(nextProps);
         if (nextProps.posts.length !== this.props.posts.length) {
             this.setState({
                 posts: nextProps.posts,
             });
         } else if ((nextProps.posts.length === this.props.posts.length)
-                    && (nextProps.posts !== this.props.posts)) {
+                    && (nextProps.posts !== this.props.posts)
+                    && (this.props.match.params.category)) {
             // Makes sure you can vote and get dynamic updates on category view
+            console.log('does it go here');
             this.setState({
                 posts: this.filterPosts(nextProps.posts),
             });
+        } else {
+            // Makes sure you can vote and get dynamic updates on root view
+            this.setState({
+                posts: nextProps.posts,
+            })
         }
     }
     createPosts = (post, i) => {
