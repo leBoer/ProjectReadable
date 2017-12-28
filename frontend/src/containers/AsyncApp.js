@@ -16,7 +16,7 @@ class AsyncApp extends Component {
   componentDidMount() {
     const { dispatch } = this.props
     // dispatch(fetchCategoriesIfNeeded('test'));
-    dispatch(fetchPostsIfNeeded());
+    dispatch(fetchPostsIfNeeded(this.props.posts));
   }
 
   componentDidUpdate(prevProps) {
@@ -40,11 +40,11 @@ class AsyncApp extends Component {
     return (
       <div>
         <div>
-          {isFetching && posts.length === 0 && <h2>Loading...</h2>}
-          {!isFetching && posts.length === 0 && <h2>Empty.</h2>}
-          {posts.length > 0 &&
+          {isFetching && posts.items.length === 0 && <h2>Loading...</h2>}
+          {!isFetching && posts.items.length === 0 && <h2>Empty.</h2>}
+          {posts.items.length > 0 &&
             <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-              <Posts posts={posts} />
+              <Posts posts={posts.items} />
             </div>}
         </div>
       </div>
@@ -53,14 +53,14 @@ class AsyncApp extends Component {
 }
 
 AsyncApp.propTypes = {
-  posts: PropTypes.array.isRequired,
+  posts: PropTypes.object.isRequired,
   isFetching: PropTypes.bool.isRequired,
   lastUpdated: PropTypes.number,
   dispatch: PropTypes.func.isRequired
 }
 
 const mapStateToProps = ({ posts, categories, isFetching }) => ({
-  posts: posts.items,
+  posts: posts,
   isFetching: posts.isFetching,
   categories: categories.items,
 });

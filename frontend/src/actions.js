@@ -45,8 +45,7 @@ function fetchCategories() {
   };
 }
 
-function shouldFetchCategories(state) {
-  const categories = state.categories;
+function shouldFetchCategories(categories) {
   if (!categories) {
     return true
   } else if (categories.items.length === 0) {
@@ -58,11 +57,11 @@ function shouldFetchCategories(state) {
   }
 }
 
-export function fetchCategoriesIfNeeded() {
-  return (dispatch, getState) => {
-    if (shouldFetchCategories(getState())) {
-      return dispatch(fetchCategories('something'));
+export function fetchCategoriesIfNeeded(categories) {
+  return (dispatch) => {
+    if (shouldFetchCategories(categories)) {
+      dispatch(fetchCategories(dispatch));
     }
-  }
+  };
 }
 

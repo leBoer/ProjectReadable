@@ -3,18 +3,46 @@ import { connect } from 'react-redux';
 import * as moment from 'moment';
 import { Button } from 'react-materialize';
 
-import { fetchComments, voteComment } from '../actions/commentActions';
+import EditComment from './EditComment.jsx';
+
+import {
+    fetchComments,
+    voteComment,
+    deleteComment
+} from '../actions/commentActions';
 
 class Comments extends Component {
+    state = {
+        editComment: false,
+        editCommentId: '',
+    }
 
     componentDidMount() {
         const { dispatch, id } = this.props;
         dispatch(fetchComments(id));
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.comments !== this.props.comments) {
+            this.setState({ editComment: false });
+        }
+    }
+
     onVoteHandler = (vote, comment) => {
         const { dispatch } = this.props;
         dispatch(voteComment(comment.id, {'option': vote}));
+    }
+
+    onDeleteHandler = (id) => {
+        const { dispatch } = this.props;
+        dispatch(deleteComment(id));
+    }
+
+    onEditHandler = (id) => {
+        this.setState({
+            editComment: !this.state.editComment,
+            editCommentId: id,
+        });
     }
 
     createComments = (comment, i) => {
@@ -40,6 +68,12 @@ class Comments extends Component {
                 <div style={styles.icon}>
                     <Button floating waves="light" icon="thumb_down" onClick={() => this.onVoteHandler('downVote', comment)} />
                 </div>
+                <div style={styles.icon}>
+                    <Button floating waves="light" icon="delete" onClick={() => this.onDeleteHandler(comment.id)} />
+                </div>
+                <div style={styles.icon}>
+                    <Button floating waves="light" icon="edit" onClick={() => this.onEditHandler(comment.id)} />
+                </div>
             </div>
         )
     }
@@ -51,6 +85,7 @@ class Comments extends Component {
     render() {
         return (
             <div>
+                { this.state.editComment && <EditComment id={this.state.editCommentId}/> }
                 {
                     this.props.comments &&
                     this.props.comments.map((comment, i) =>

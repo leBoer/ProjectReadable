@@ -57,7 +57,7 @@ class Post extends Component {
 
     onEditHandler = () => {
         this.setState({
-            edit: true,
+            edit: !this.state.edit,
         })
     }
 
@@ -79,7 +79,7 @@ class Post extends Component {
                 <Row>
                     <Col s={2}>
                     </Col>
-                    <Col s={7}>
+                    <Col s={9}>
                         <h2>{this.props.post.title}</h2>
                         <i>
                             {this.props.post.author} | {this.convertToDate(this.props.post.timestamp)} | {this.props.post.category}
@@ -97,14 +97,14 @@ class Post extends Component {
                 <Row>
                     <Col s={2}>
                     </Col>
-                    <Col s={7}>
+                    <Col s={9}>
                         { this.state.newComment && <NewComment /> }
                     </Col>
                 </Row>
                 <Row>
                     <Col s={2}>
                     </Col>
-                    <Col s={7}>
+                    <Col s={9}>
                         <Comments id={this.props.match.params.id}/>
                     </Col>
                 </Row>

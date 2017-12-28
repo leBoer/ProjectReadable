@@ -81,26 +81,55 @@ class NewPost extends Component {
     render() {
         const { categories } = this.props;
         const post = this.state.post;
+        const styles = {
+            marginTop: '15px',
+        }
         if (post.id || !this.props.match.params.id) {
+            // if statement to make sure that defaultValue gets a value when rendering
             return (
-                <div>
+                <div style={styles}>
                     <Row>
-                        <Input s={4} type="text" label="Author" name="author" onChange={this.onInputHandler} defaultValue={this.state.post.author}/>
+                        <Input s={4}
+                               type="text"
+                               label="Author"
+                               name="author"
+                               onChange={this.onInputHandler}
+                               defaultValue={post.author}/>
                     </Row>
                     <Row>
-                        <Input s={4} type="select" label="Select Category" name="category" onChange={this.onInputHandler} defaultValue={this.state.post.category}>
+                        <Input s={4}
+                               type="select"
+                               label="Select Category"
+                               name="category"
+                               onChange={this.onInputHandler}
+                               defaultValue={post.category}>
                             { this.generateCategories(categories) }
                         </Input>
                     </Row>
                     <Row>
-                        <Input s={4} className="active" type="text" label="Title" name="title" onChange={this.onInputHandler} defaultValue={post.title}/>
+                        <Input s={4}
+                               className="active"
+                               type="text"
+                               label="Title"
+                               name="title"
+                               onChange={this.onInputHandler}
+                               defaultValue={post.title}/>
                     </Row>
                     <Row>
-                        <Input s={4} type="textarea" label="Write your post here" name="body" onChange={this.onInputHandler} defaultValue={this.state.post.body}/>
+                        <Input s={4}
+                               type="textarea"
+                               label="Write your post here"
+                               name="body"
+                               onChange={this.onInputHandler}
+                               defaultValue={post.body}/>
                     </Row>
                     <Row>
                         <Col s={4}>
-                            <Button waves="light" name="submitPost" onClick={this.onSubmitHandler}>Submit</Button>
+                            <Button waves="light"
+                                    name="submitPost"
+                                    onClick={this.onSubmitHandler}>
+                                Submit
+                            </Button>
                         </Col>
                     </Row>
                 </div>

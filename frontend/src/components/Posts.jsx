@@ -21,7 +21,7 @@ export default class Posts extends Component {
   }
   createPosts = (post, i) => {
     return (
-      <CollectionItem href={`/post/${post.id}`} key={i}>
+      <CollectionItem href={`/${post.category}/${post.id}`} key={i}>
         <b>{post.title}</b>
         <br/>
         Votes: {post.voteScore}
@@ -41,20 +41,18 @@ export default class Posts extends Component {
   sortPosts = (posts, sorting) => {
     return (
       posts
-        .sort((a, b) => a[sorting] > b[sorting])
+        .sort((a, b) => a[sorting] < b[sorting])
         .map((post, i) => this.createPosts(post, i))
     )
   }
 
   changeSorting = (e) => {
-    console.log(e.target.name);
     this.setState({
       sorting: e.target.name,
     })
   }
 
   render() {
-    console.log(this.props.posts);
     return (
       <div>
         <div style={styles.order}>

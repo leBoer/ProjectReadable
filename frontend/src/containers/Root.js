@@ -19,8 +19,9 @@ const Root = ({ store }) => (
         </div>
         <Switch>
           <Route exact path="/" component={AsyncApp} />
+          <Route exact path="/:category" component={AsyncApp} />
           <Route path="/newpost" component={NewPost} />
-          <Route path="/post/:id" component={Post} />
+          <Route path="/:category/:id" component={Post} />
         </Switch>
       </div>
     </Router>

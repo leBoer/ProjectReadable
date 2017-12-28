@@ -10,7 +10,7 @@ class Header extends Component {
     }
     componentDidMount() {
         const { dispatch } = this.props;
-        dispatch(fetchCategoriesIfNeeded('test3'));
+        dispatch(fetchCategoriesIfNeeded(this.props.categories));
     }
 
     render() {
@@ -18,7 +18,7 @@ class Header extends Component {
         return (
             <div>
                 <Navbar brand="Project Readable" left>
-                    { categories.map((item, index) => {
+                    { categories.items.map((item, index) => {
                         return <NavItem href="/item" key={index}>{item}</NavItem>
                     })}
                 </Navbar>
@@ -28,7 +28,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = ({ categories }) => ({
-    categories: categories.items,
+    categories: categories,
 });
 
 export default connect(mapStateToProps)(Header);

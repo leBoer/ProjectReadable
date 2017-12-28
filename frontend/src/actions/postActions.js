@@ -136,7 +136,7 @@ export function postNewPost(payload) {
     };
 }
 
-function fetchPosts() {
+function fetchPosts(dispatch) {
     return dispatch => {
         dispatch(requestPosts);
         return fetch(`http://localhost:3001/posts`, {
@@ -179,8 +179,7 @@ export function deletePost(id) {
     };
 }
 
-function shouldFetchPosts(state, subreddit) {
-    const posts = state.posts;
+function shouldFetchPosts(posts) {
     if (!posts) {
         return true;
     } else if (posts.items.length === 0) {
@@ -192,11 +191,10 @@ function shouldFetchPosts(state, subreddit) {
     }
 }
 
-export function fetchPostsIfNeeded() {
-    return (dispatch, getState) => {
-        if (shouldFetchPosts(getState())) {
-            // TODO: need to remove this
-            return dispatch(fetchPosts('wwwwtf'));
+export function fetchPostsIfNeeded(posts) {
+    return dispatch => {
+        if (shouldFetchPosts(posts)) {
+            dispatch(fetchPosts(dispatch));
         }
     }
 }
