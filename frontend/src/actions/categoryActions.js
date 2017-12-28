@@ -1,21 +1,5 @@
-export const SELECT_SUBREDDIT = 'SELECT_SUBREDDIT';
-export const INVALIDATE_SUBREDDIT = 'INVALIDATE_SUBREDDIT';
 export const REQUEST_CATEGORIES = 'REQUEST_CATEGORIES';
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
-
-export function selectSubreddit(subreddit) {
-  return {
-    type: SELECT_SUBREDDIT,
-    subreddit
-  }
-}
-
-export function invalidateSubreddit(subreddit) {
-  return {
-    type: INVALIDATE_SUBREDDIT,
-    subreddit
-  }
-}
 
 function requestCategories() {
   return {

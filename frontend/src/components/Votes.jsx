@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Button } from 'react-materialize';
 
 import { votePost } from '../actions/postActions';
@@ -27,9 +28,13 @@ class Votes extends Component {
                 <div style={styles.icon}>
                     <Button floating waves="light" icon="thumb_up" onClick={() => this.onVoteHandler('upVote')} />
                 </div>
-                <div style={styles.votes}>
-                    {this.props.voteScore}
-                </div>
+                {
+                    this.props.match.params.id
+                    && 
+                    <div style={styles.votes}>
+                        {this.props.voteScore}
+                    </div>
+                }
                 <div style={styles.icon}>
                     <Button floating waves="light" icon="thumb_down" onClick={() => this.onVoteHandler('downVote')}/>
                 </div>
@@ -42,4 +47,4 @@ const mapStateToProps = ({ posts }) => ({
     voteScore: posts.item.voteScore,
 });
 
-export default connect(mapStateToProps)(Votes);
+export default withRouter(connect(mapStateToProps)(Votes));

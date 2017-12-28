@@ -23,6 +23,7 @@ class Comments extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        // If there comment has been edited, unmount edit
         if(nextProps.comments !== this.props.comments) {
             this.setState({ editComment: false });
         }
@@ -39,6 +40,7 @@ class Comments extends Component {
     }
 
     onEditHandler = (id) => {
+        // Mount and unmount edit
         this.setState({
             editComment: !this.state.editComment,
             editCommentId: id,

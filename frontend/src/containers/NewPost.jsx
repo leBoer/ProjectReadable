@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col, Input, Button } from 'react-materialize';
-import * as Materialize from 'react-materialize';
 import { withRouter } from 'react-router-dom';
 
 import { postNewPost, updatePost } from '../actions/postActions';
 
 class NewPost extends Component {
-    constructor(props) {
-        super(props);
-    }
     state = {
         post: {
             id: '',
@@ -24,7 +19,7 @@ class NewPost extends Component {
 
     generateCategories = (categories) => {
         return categories.map((item, index) => {
-            return <option value={item} key={index}>{item}</option>
+            return <option value={item} key={index}>{item}</option>;
         });
     }
 
@@ -37,15 +32,13 @@ class NewPost extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
-        console.log(this.props);
+        // If new post or edited, reroute to root
         if (nextProps.post !== this.props.post) {
             this.props.history.push("/");
         }
     }
 
     componentDidMount() {
-        console.log(this.props.post);
         if (this.props.match.params.id) {
             this.setState({
                 post: this.props.post
@@ -63,7 +56,7 @@ class NewPost extends Component {
             })
         }, () => {
             if (this.props.match.params.id) {
-                console.log('this is an update');
+                // If this is editing an existing post
                 const params = {
                     title: this.state.post.title,
                     body: this.state.post.body,

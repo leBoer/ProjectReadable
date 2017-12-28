@@ -3,33 +3,33 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import AsyncApp from './AsyncApp';
-import Header from '../components/Header';
+import Header from '../components/Header.jsx';
 import NewPost from './NewPost.jsx';
 import Post from './Post.jsx';
 
 
 const Root = ({ store }) => (
-  <Provider store={store}>
-    <Router>
-      <div>
-        <div>
-          <header>
-            <Header />
-          </header>
-        </div>
-        <Switch>
-          <Route exact path="/" component={AsyncApp} />
-          <Route exact path="/:category" component={AsyncApp} />
-          <Route path="/newpost" component={NewPost} />
-          <Route path="/:category/:id" component={Post} />
-        </Switch>
-      </div>
-    </Router>
-  </Provider>
+    <Provider store={store}>
+        <Router>
+            <div>
+                <div>
+                    <header>
+                        <Header />
+                    </header>
+                </div>
+                <Switch>
+                    <Route exact path="/" component={AsyncApp} />
+                    <Route path="/newpost" component={NewPost} />
+                    <Route exact path="/:category" component={AsyncApp} />
+                    <Route path="/:category/:id" component={Post} />
+                </Switch>
+            </div>
+        </Router>
+    </Provider>
 )
 
 Root.propTypes = {
-  store: PropTypes.object.isRequired
+    store: PropTypes.object.isRequired
 }
 
 export default Root;

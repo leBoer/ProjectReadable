@@ -44,7 +44,6 @@ export function posts(
                 lastUpdated: action.receivedAt
             });
         case RECEIVE_NEW_POST:
-            console.log(action);
             return Object.assign({}, state, {
                 isFetching: false,
                 didInvalidate: false,

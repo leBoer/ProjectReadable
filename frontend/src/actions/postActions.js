@@ -182,7 +182,7 @@ export function deletePost(id) {
 function shouldFetchPosts(posts) {
     if (!posts) {
         return true;
-    } else if (posts.items.length === 0) {
+    } else if (posts.items.length <= 1) {
         return true;
     } else if (posts.isFetching) {
         return false;

@@ -6,9 +6,6 @@ import { Input, Row, Col, Button } from 'react-materialize';
 import { postComment } from '../actions/commentActions';
 
 class NewComment extends Component {
-    constructor(props) {
-        super(props);
-    }
     state = {
         comment: {
             id: '',
@@ -29,7 +26,6 @@ class NewComment extends Component {
                 parentId: this.props.match.params.id,
             })
         }, () => {
-            console.log(dispatch);
             dispatch(postComment(this.state.comment))
         });
     }

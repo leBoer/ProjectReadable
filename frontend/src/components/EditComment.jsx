@@ -5,9 +5,6 @@ import { Row, Input, Button } from 'react-materialize';
 import { updateComment } from '../actions/commentActions';
 
 class EditComment extends Component {
-    constructor(props) {
-        super(props);
-    }
     state = {
         timestamp: '',
         body: '',

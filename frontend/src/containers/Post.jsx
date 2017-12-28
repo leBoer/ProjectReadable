@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col, Button } from 'react-materialize';
 import * as moment from 'moment';
@@ -12,9 +11,6 @@ import Comments from '../components/Comments.jsx';
 import NewComment from '../components/NewComment.jsx';
 
 class Post extends Component {
-    constructor(props) {
-        super(props);
-    }
     state = {
         post: {
             id: '',

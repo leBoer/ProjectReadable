@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Navbar, NavItem } from 'react-materialize';
 
-import { fetchCategoriesIfNeeded } from '../actions';
+import { fetchCategoriesIfNeeded } from '../actions/categoryActions';
 
 class Header extends Component {
-    constructor(props) {
-        super(props);
-    }
     componentDidMount() {
         const { dispatch } = this.props;
         dispatch(fetchCategoriesIfNeeded(this.props.categories));
@@ -19,7 +16,7 @@ class Header extends Component {
             <div>
                 <Navbar brand="Project Readable" left>
                     { categories.items.map((item, index) => {
-                        return <NavItem href="/item" key={index}>{item}</NavItem>
+                        return <NavItem href={`/${item}`} key={index}>{item}</NavItem>
                     })}
                 </Navbar>
             </div>
