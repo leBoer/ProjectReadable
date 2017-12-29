@@ -11,7 +11,9 @@ import {
 } from 'react-materialize';
 import * as moment from 'moment';
 
+import { deletePost } from '../actions/postActions';
 import Votes from '../components/Votes.jsx';
+import EditPost from '../components/EditPost.jsx';
 
 const styles = {
     order: {
@@ -26,6 +28,8 @@ class Posts extends Component {
     state = {
         sorting: 'timestamp',
         posts: [],
+        edit: false,
+        editId: '',
     }
 
     componentDidMount() {
@@ -54,37 +58,62 @@ class Posts extends Component {
             // Makes sure you can vote and get dynamic updates on category view
             this.setState({
                 posts: this.filterPosts(nextProps.posts),
+                edit: false,
             });
-        } else {
+        } else if (nextProps.posts !== this.props.posts){
             // Makes sure you can vote and get dynamic updates on root view
             this.setState({
                 posts: nextProps.posts,
+                edit: false,
             })
         }
     }
+
+    onEditHandler = (id) => {
+        this.setState({
+            edit: !this.state.edit,
+            editId: id,
+        })
+    }
+
+    onDeleteHandler = (id) => {
+        const { dispatch } = this.props;
+        dispatch(deletePost(id));
+    }
+
     createPosts = (post, i) => {
         // Returns a post
         return (
-            <Row key={i}>
-                <Col s={1}>
-                    <div style={styles.voting}>
-                        <Votes id={post.id}/>
-                    </div>
-                </Col>
-                <Col s={7}>
-                    <CollectionItem href={`/${post.category}/${post.id}`}>
-                        <b>{post.title}</b>
-                        <br />
-                        Votes: {post.voteScore}
-                        <br />
-                        Comments: {post.commentCount}
-                        <br />
-                        Author: {post.author}
-                        <br />
-                        Date: {this.convertToDate(post.timestamp)}
-                    </CollectionItem>
-                </Col>
-            </Row>
+            <div key={i}>
+                <Row>
+                    <Col s={1}>
+                        <div style={styles.voting}>
+                            <Votes id={post.id}/>
+                        </div>
+                    </Col>
+                    <Col s={4}>
+                        <CollectionItem href={`/${post.category}/${post.id}`}>
+                            <b>{post.title}</b>
+                            <br />
+                            Votes: {post.voteScore}
+                            <br />
+                            Comments: {post.commentCount}
+                            <br />
+                            Author: {post.author}
+                            <br />
+                            Date: {this.convertToDate(post.timestamp)}
+                        </CollectionItem>
+                    </Col>
+                    <Col s={2}>
+                        <div style={styles.icon}>
+                            <Button floating waves="light" icon="delete" onClick={() => this.onDeleteHandler(post.id)} />
+                        </div>
+                        <div style={styles.icon}>
+                            <Button floating waves="light" icon="edit" onClick={() => this.onEditHandler(post.id)} />
+                        </div>
+                    </Col>
+                </Row>
+            </div>
         )
     }
 
@@ -122,6 +151,12 @@ class Posts extends Component {
     }
 
     render() {
+        const styles = {
+            icon: {
+                float: 'right',
+                marginRight: '15px',
+            },
+        }
         return (
             <div>
                 <div style={styles.order}>
@@ -129,6 +164,12 @@ class Posts extends Component {
                     <Button waves="light" name="timestamp" onClick={this.changeSorting}>Order by Time</Button>
                     <Link to="/newpost"><Button name="newPost">Create New Post</Button></Link>
                 </div>
+                <Row>
+                    {
+                        this.state.edit
+                        && <EditPost id={this.state.editId} />
+                    }
+                </Row>
                 <Row>
                     <Collection>
                         {this.sortPosts(this.state.posts, this.state.sorting)}
@@ -139,8 +180,9 @@ class Posts extends Component {
     }
 }
 
-const mapStateToProps = ({ posts }) => ({
+const mapStateToProps = ({ posts, categories }) => ({
     posts: posts.items,
+    categories: categories.items,
 })
 
 export default withRouter(connect(mapStateToProps)(Posts));

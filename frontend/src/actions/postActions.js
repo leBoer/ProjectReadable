@@ -41,9 +41,10 @@ function requestVotePost() {
     };
 }
 
-function requestPostDeletePostSuccess() {
+function requestPostDeletePostSuccess(json) {
     return {
         type: REQUEST_DELETE_POST_SUCCESS,
+        post: json,
         receivedAt: Date.now()
     };
 }

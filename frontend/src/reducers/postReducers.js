@@ -42,6 +42,18 @@ export function posts(
                 isFetching: false,
                 didInvalidate: false,
                 item: action.post,
+                items: state.items.map(
+                    (item) => item.id === action.post.id
+                    ? {
+                        ...item,
+                        author: action.post.author,
+                        category: action.post.category,
+                        title: action.post.title,
+                        body: action.post.body,
+                        timestamp: action.post.timestamp
+                    }
+                    : item
+                ),
                 lastUpdated: action.receivedAt
             });
         case RECEIVE_NEW_POST:
@@ -58,6 +70,9 @@ export function posts(
                 didInvalidate: false,
                 lastUpdated: action.receivedAt,
                 item: [],
+                items: state.items.filter(
+                    item => item.id !== action.post.id
+                ),
             });
         case RECEIVE_VOTE_POST:
             return Object.assign({}, state, {
